@@ -1,0 +1,15 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "StockSelection_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/boyangtian/PlayWithChatGPT/StockSelection",
+    visibility = ["//visibility:private"],
+    deps = ["//StockSelection/lib"],
+)
+
+go_binary(
+    name = "StockSelection",
+    embed = [":StockSelection_lib"],
+    visibility = ["//visibility:public"],
+)
