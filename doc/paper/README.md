@@ -1,5 +1,5 @@
 # paper related to ChatGPT
-## prerequisities
+## prerequisites
 Result based on ChatGPT response:
 if you're interested in the field of natural language processing (NLP) and want to learn more about how AI language models work, there are several papers that are worth reading:
 - ["Attention Is All You Need" by Vaswani et al. (2017)](https://arxiv.org/abs/1706.03762): This paper introduced the transformer architecture, which has become a fundamental building block for many modern NLP models.
