@@ -20,3 +20,6 @@
 
 ########## For Bazel ################
 /bazel-*
+
+########## For python ################
+.python-version
