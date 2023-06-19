@@ -23,3 +23,25 @@
 
 ########## For python ################
 .python-version
+
+########## For Env ################
+.env
+.env.*
+
+########## For Docker ################
+logs/
+data/
+
+########## For Django ################
+settings_local.py
+Pipfile
+Pipfile.lock
+poetry.lock
+static/
+media/
+*.log
+*.pyc
+__pycache__/
+.vscode/
+.idea/
+.vim/

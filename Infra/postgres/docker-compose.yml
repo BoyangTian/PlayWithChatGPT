@@ -1,0 +1,25 @@
+version: '1'
+
+services:
+  db-postgres-simplesite:
+    container_name: postgres-simplesite
+    image: postgres:15.3
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_DB: simplesite
+      TZ: UTC
+    volumes:
+      # The volumes section is used to create a data volume for persistent storage.
+      # In this example, we're mapping the ./data directory on the host machine
+      # to the /var/lib/postgresql/data directory inside the container.
+      # This ensures that the PostgreSQL data is stored on the host machine,
+      # making it persistent even if the container is recreated or removed.
+      - ./data:/var/lib/postgresql/data
+      # this is used to initialize the db with desired schema or data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      # You can connect to the PostgreSQL server using localhost:5432 or 127.0.0.1:5432 from your host machine or any other machine on the same network.
+      - 5432:5432
