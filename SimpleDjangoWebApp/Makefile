@@ -21,6 +21,8 @@ help:
 	@echo "run                  	- Run."
 	@echo "migration-check      	- Before update DB check schema update."
 	@echo "migration-update-detail  - Get detail of update DB schema before migrate."
+	@echo "test TEST_MODEL=<model>  - Test specific model."
+	@echo "test-all                	- Test all."
 	@echo "clean                	- Clean python cache."
 
 # Activate the Pyenv virtual environment
@@ -65,6 +67,13 @@ migration-check: install
 # could run same command and pass table name as param
 migration-update-detail: install
 	$(PYTHON) simplesite/manage.py sqlmigrate
+	
+test: migration
+	$(if $(TEST_MODEL),,$(error TEST_MODEL is not defined. Please provide a value when running the command, e.g., make test TEST_MODEL=<value>))
+	$(PYTHON) simplesite/manage.py test tests.$(TEST_MODEL)
+
+test-all: migration
+	$(PYTHON) simplesite/manage.py test tests
 
 clean:
 	$(PYENV_DEACTIVATE) && \
@@ -73,4 +82,4 @@ clean:
 	rm -rf .python-version && \
 	echo "Cleaned up generated files"
 
-.PHONY: activate deactivate install run clean
+.PHONY: activate deactivate install run clean test-all test
