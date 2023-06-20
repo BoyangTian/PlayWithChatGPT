@@ -89,6 +89,19 @@ DATABASES = {
     }
 }
 
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
+# https://docs.djangoproject.com/en/4.2/intro/tutorial06/
+# Django’s STATICFILES_FINDERS setting contains a list of finders that know how to discover static
+# files from various sources. One of the defaults is AppDirectoriesFinder which looks for a “static”
+# subdirectory in each of the INSTALLED_APPS, like the one in polls we just created.
+# The admin site uses the same directory structure for its static files.
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
