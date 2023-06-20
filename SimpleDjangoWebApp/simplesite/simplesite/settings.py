@@ -55,11 +55,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'simplesite.urls'
 
+# use specific template folder instead of template file under each app
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),],
+        'APP_DIRS': False,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -89,16 +90,16 @@ DATABASES = {
     }
 }
 
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-]
 
 # https://docs.djangoproject.com/en/4.2/intro/tutorial06/
 # Django’s STATICFILES_FINDERS setting contains a list of finders that know how to discover static
 # files from various sources. One of the defaults is AppDirectoriesFinder which looks for a “static”
 # subdirectory in each of the INSTALLED_APPS, like the one in polls we just created.
 # The admin site uses the same directory structure for its static files.
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
