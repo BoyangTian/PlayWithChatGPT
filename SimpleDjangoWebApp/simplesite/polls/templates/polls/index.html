@@ -1,5 +1,9 @@
 {% if latest_question_list %}
-    <ul>
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'polls/style.css' %}">
+    
+<ul>
     {% for question in latest_question_list %}
         <!-- The problem with this hardcoded, tightly-coupled approach is that it becomes challenging
             to change URLs on projects with a lot of templates. However, since you defined the name argument
