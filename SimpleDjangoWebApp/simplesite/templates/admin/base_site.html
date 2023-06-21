@@ -1,0 +1,17 @@
+<!-- https://github.com/django/django/blob/main/django/contrib/admin/templates/admin/base_site.html -->
+<!-- If you have difficulty finding where the Django source files are located on your system, run the following command: -->
+<!-- python -c "import django; print(django.__path__)" -->
+
+{% extends "admin/base.html" %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Simplesite site admin') }}{% endblock %}
+
+{% block branding %}
+<!-- <div id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Simplesite administration') }}</a></div> -->
+<h1 id="site-name"><a href="{% url 'admin:index' %}">Simplesite Administration</a></h1>
+{% if user.is_anonymous %}
+  {% include "admin/color_theme_toggle.html" %}
+{% endif %}
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
