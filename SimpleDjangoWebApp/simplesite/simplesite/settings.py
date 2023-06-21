@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-import os
 from dotenv import dotenv_values
 from pathlib import Path
 
@@ -56,10 +55,13 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'simplesite.urls'
 
 # use specific template folder instead of template file under each app
+# https://docs.djangoproject.com/en/4.2/intro/tutorial07/
+# https://docs.djangoproject.com/en/4.2/topics/templates/#template-loading
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'),],
+        # 'DIRS': [os.path.join(BASE_DIR, 'templates'),],
+        'DIRS': [BASE_DIR / 'templates'],
         # set this to true otherwise the admin page will not work. This enable app-based template
         'APP_DIRS': True,
         'OPTIONS': {
@@ -137,7 +139,7 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    BASE_DIR / 'static',
 ]
 
 # Default primary key field type
