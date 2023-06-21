@@ -19,6 +19,15 @@ class QuestionAdmin(admin.ModelAdmin):
         (None, {"fields": ["question_text"]}),
         ("Date information", {"fields": ["pub_date"]}),
     ]
+    # show all field under home display place
+    list_display = ["question_text", "pub_date", "was_published_recently"]
+    # enable "admin" page adds a “Filter” sidebar that lets people filter the change list by the pub_date field
+    list_filter = ["pub_date"]
     inlines = [ChoiceInline]
+    # enable search capability
+    # because it uses a LIKE query behind the scenes,
+    # limiting the number of search fields to a reasonable number will make it easier
+    # for your database to do the search
+    search_fields = ["question_text"]
 
 admin.site.register(Question, QuestionAdmin)
