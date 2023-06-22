@@ -1,7 +1,8 @@
 # Define variables
 PYTHON = python3
 PROJECT_NAME = SimpleDjangoWebApp
-VERSION=0.0.1
+include simplesite.env
+VERSION=${TAG}
 PYTHON_VERSION=3.9.6
 # Define the activate and deactivate commands for Pyenv
 PYENV_INSTALL = pyenv install -s $(PYTHON_VERSION)
@@ -59,7 +60,8 @@ django-shell: migration
 	$(PYTHON) simplesite/manage.py shell
 
 run: migration
-	$(PYTHON) simplesite/manage.py runserver
+	echo "Running with TAG=${TAG}"
+	$(PYTHON) simplesite/manage.py runserver 0.0.0.0:8000
 
 migration-check: install
 	$(PYTHON) simplesite/manage.py check
@@ -82,4 +84,7 @@ clean:
 	rm -rf .python-version && \
 	echo "Cleaned up generated files"
 
-.PHONY: activate deactivate install run clean test-all test
+docker-image:
+	docker build --progress=plain -t simplesite:${VERSION} -f simplesite/Dockerfile .
+
+.PHONY: activate deactivate install run clean test-all test docker-image

@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-env_vars = dotenv_values(".env")
+env_vars = dotenv_values("simplesite.env")
 SECRET_KEY = env_vars["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -87,7 +87,8 @@ DATABASES = {
         'NAME': "simplesite",
         "USER": "admin",
         "PASSWORD": env_vars["POSTGRES_PASSWORD"],
-        "HOST": "127.0.0.1",
+        "HOST": env_vars["DB_HOST"],
+        # "HOST": "postgres-simplesite",
         "PORT": "5432",
         "TIME_ZONE": "UTC",
     }

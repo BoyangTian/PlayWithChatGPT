@@ -1,0 +1,12 @@
+version: '1'
+
+services:
+  simplesite:
+    container_name: simplesite
+    # TODO: should read tag more dynamiclly
+    image: simplesite:0.0.1
+    restart: always
+    ports:
+      - 8000:8000
+    depends_on:
+      - db-postgres-simplesite
