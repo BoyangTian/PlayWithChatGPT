@@ -24,11 +24,6 @@
 ########## For python ################
 .python-version
 
-########## For Env ################
-.env
-.env.*
-*.env
-
 ########## For Docker ################
 logs/
 data/

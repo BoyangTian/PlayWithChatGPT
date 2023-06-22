@@ -4,13 +4,15 @@ services:
   db-postgres-simplesite:
     container_name: postgres-simplesite
     image: postgres:15.3
-    restart: always
+    # restart: always
+    # TODO: simplesite and here are using the same env_file even though simplesite not use it
     env_file:
-      - .env
+      - postgres.env
     environment:
       POSTGRES_USER: admin
       POSTGRES_DB: simplesite
       TZ: UTC
+      # POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       # The volumes section is used to create a data volume for persistent storage.
       # In this example, we're mapping the ./data directory on the host machine

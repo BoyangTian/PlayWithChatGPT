@@ -5,7 +5,7 @@ Simple Full Stack Django Web Application
 ## Requirements
 1.Docker installed ('brew install --cask docker')
 2.Install postgres docker image
-3.Create you own ".env" file with SECRET_KEY, POSTGRES_PASSWORD
+3.Create you own "simplesite.env" file with SECRET_KEY, POSTGRES_PASSWORD, DB_HOST, TAG
 
 [Tutorial](https://docs.djangoproject.com/en/4.2/intro/tutorial01/)
 ```
