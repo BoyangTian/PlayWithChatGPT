@@ -2,6 +2,9 @@ FROM python:3.9.6
 
 ENV PYENV_VERSION="v2.3.17"
 
+# TODO: dockerfile itself cannot be run because it cannot connect to postgresql container,
+# need to use docker-compose to run
+
 # TODO: for docker we even don't need pyenv
 # # Install pyenv
 RUN git clone https://github.com/pyenv/pyenv.git ~/.pyenv
