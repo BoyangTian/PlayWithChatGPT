@@ -58,7 +58,11 @@ ROOT_URLCONF = 'authsite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
+        # The setting of 'APP_DIRS': True, is the most important, as it tells Django to search for 
+        # templates in a subdirectory of each application in the project, named "templates" 
+        # (this makes it easier to group templates with their associated application for easy re-use).
+        # We still need to set this to True for "admin" page
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,8 +128,23 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
+# We can also get static files from CDN:
+# https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Home_page
 
 STATIC_URL = 'static/'
+
+# https://docs.djangoproject.com/en/4.2/intro/tutorial06/
+# Django’s STATICFILES_FINDERS setting contains a list of finders that know how to discover static
+# files from various sources. One of the defaults is AppDirectoriesFinder which looks for a “static”
+# subdirectory in each of the INSTALLED_APPS, like the one in polls we just created.
+# The admin site uses the same directory structure for its static files.
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
