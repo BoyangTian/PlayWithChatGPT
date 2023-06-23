@@ -14,19 +14,27 @@ help:
 	@echo "down             	- Down all services."
 
 db:
-	docker-compose -f postgres/docker-compose.yml up -d db-postgres-simplesite
+	$(if $(DB_NAME),,$(error DB_NAME is not defined. Please provide a value when running the command, e.g., make test DB_NAME=<value>))
+	docker-compose -f postgres/docker-compose.yml up -d db-postgres-$(DB_NAME)
+
+db-all:
+	docker-compose -f postgres/docker-compose.yml up -d
 
 # there is no way to just "down" one service. Therefore we can only use "stop" command.
 # but it will not stop the network associate to this service
 # https://forums.docker.com/t/docker-compose-down-specific-service/125914/4
 dbstop:
-	docker-compose -f postgres/docker-compose.yml stop db-postgres-simplesite
+	$(if $(DB_NAME),,$(error DB_NAME is not defined. Please provide a value when running the command, e.g., make test DB_NAME=<value>))
+	docker-compose -f postgres/docker-compose.yml stop db-postgres-$(DB_NAME)
 
 dblogin:
-	docker-compose -f postgres/docker-compose.yml exec db-postgres-simplesite psql -U admin -d simplesite
+	$(if $(DB_NAME),,$(error DB_NAME is not defined. Please provide a value when running the command, e.g., make test DB_NAME=<value> PORT=<value>))
+	$(if $(PORT),,$(error DB_NAME is not defined. Please provide a value when running the command, e.g., make test DB_NAME=<value> PORT=<value>))
+	docker-compose -f postgres/docker-compose.yml exec db-postgres-${DB_NAME} psql -U admin_$(DB_NAME) -d $(DB_NAME) -p $(PORT)
 
 dblog:
-	docker-compose -f postgres/docker-compose.yml logs --tail 50
+	$(if $(DB_NAME),,$(error DB_NAME is not defined. Please provide a value when running the command, e.g., make test DB_NAME=<value>))
+	docker-compose -f postgres/docker-compose.yml logs --tail 50 db-postgres-$(DB_NAME)
 
 simplesite:
 	docker-compose -f postgres/docker-compose.yml -f django-simplesite/docker-compose.yml up -d
