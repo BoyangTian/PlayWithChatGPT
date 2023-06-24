@@ -150,3 +150,8 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Sessions
+# Note: You can change the behavior so the site will update the database/send cookie on every 
+# request by adding SESSION_SAVE_EVERY_REQUEST = True into your project settings
