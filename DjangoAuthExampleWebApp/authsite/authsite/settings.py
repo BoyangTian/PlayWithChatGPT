@@ -34,8 +34,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
+    'django.contrib.auth', # Core authentication framework and its default models.
+    'django.contrib.contenttypes', # Django content type system (allows permissions to be associated with models).
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -45,10 +45,10 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware', # Manages sessions across requests
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware', # Associates users with requests using sessions.
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -155,3 +155,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Sessions
 # Note: You can change the behavior so the site will update the database/send cookie on every 
 # request by adding SESSION_SAVE_EVERY_REQUEST = True into your project settings
+
+# Redirect to home URL after login (Default redirects to /accounts/profile/)
+LOGIN_REDIRECT_URL = '/'
+
+# https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication
+# Note: The password reset system requires that your website supports email, 
+# which is beyond the scope of this article, so this part won't work yet. 
+# To allow testing, put the following line at the end of your settings.py file. 
+# This logs any emails sent to the console (so you can copy the password reset link 
+# from the console).
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

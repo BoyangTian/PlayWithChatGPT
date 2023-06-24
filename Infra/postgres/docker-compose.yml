@@ -50,4 +50,6 @@ services:
       # - ./scripts/authsite/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       # You can connect to the PostgreSQL server using localhost:5433 or 127.0.0.1:5433 from your host machine or any other machine on the same network.
+      # Even though define port as 5433 here, but run "psql" command port should still be 5432
+      # if "psql" is run under "docker exec"
       - 5433:5432
