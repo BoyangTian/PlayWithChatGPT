@@ -4,12 +4,12 @@ services:
   db-postgres-simplesite:
     container_name: postgres-simplesite
     image: postgres:15.3
-    # restart: always
+    restart: always
     # TODO: simplesite and here are using the same env_file even though simplesite not use it
     env_file:
       - postgres.env
     environment:
-      POSTGRES_USER: admin
+      POSTGRES_USER: admin_simplesite
       POSTGRES_DB: simplesite
       TZ: UTC
       # POSTGRES_HOST_AUTH_METHOD: trust
@@ -19,9 +19,35 @@ services:
       # to the /var/lib/postgresql/data directory inside the container.
       # This ensures that the PostgreSQL data is stored on the host machine,
       # making it persistent even if the container is recreated or removed.
-      - ./data:/var/lib/postgresql/data
+      - ./data/simplesite:/var/lib/postgresql/data
       # this is used to initialize the db with desired schema or data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      # - ./scripts/simplesite/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       # You can connect to the PostgreSQL server using localhost:5432 or 127.0.0.1:5432 from your host machine or any other machine on the same network.
       - 5432:5432
+
+  
+  db-postgres-authsite:
+    container_name: postgres-authsite
+    image: postgres:15.3
+    restart: always
+    # TODO: simplesite web app and here are using the same env_file even though simplesite not use it
+    env_file:
+      - postgres.env
+    environment:
+      POSTGRES_USER: admin_authsite
+      POSTGRES_DB: authsite
+      TZ: UTC
+      # POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      # The volumes section is used to create a data volume for persistent storage.
+      # In this example, we're mapping the ./data directory on the host machine
+      # to the /var/lib/postgresql/data directory inside the container.
+      # This ensures that the PostgreSQL data is stored on the host machine,
+      # making it persistent even if the container is recreated or removed.
+      - ./data/authsite:/var/lib/postgresql/data
+      # this is used to initialize the db with desired schema or data
+      # - ./scripts/authsite/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      # You can connect to the PostgreSQL server using localhost:5433 or 127.0.0.1:5433 from your host machine or any other machine on the same network.
+      - 5433:5432

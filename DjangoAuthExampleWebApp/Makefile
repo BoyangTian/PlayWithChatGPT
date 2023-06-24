@@ -1,7 +1,7 @@
 # Define variables
 PYTHON = python3
-PROJECT_NAME = SimpleDjangoWebApp
-include simplesite.env
+PROJECT_NAME = DjangoAuthExampleWebApp
+include authsite.env
 VERSION=${TAG}
 PYTHON_VERSION=3.9.6
 # Define the activate and deactivate commands for Pyenv
@@ -24,7 +24,7 @@ help:
 	@echo "migration-update-detail  	- Get detail of update DB schema before migrate."
 	@echo "test TEST_MODEL=<model>  	- Test specific model."
 	@echo "test-all                		- Test all."
-	@echo "create-app APP_NAME=<value>	- Create sub app under simplesite folder."
+	@echo "create-app APP_NAME=<value>	- Create sub app under authsite folder."
 	@echo "clean                		- Clean python cache."
 
 # Activate the Pyenv virtual environment
@@ -54,29 +54,29 @@ install: activate
 	echo "Installed dependencies"
 
 migration: install
-	$(PYTHON) simplesite/manage.py makemigrations
-	$(PYTHON) simplesite/manage.py migrate
+	$(PYTHON) authsite/manage.py makemigrations
+	$(PYTHON) authsite/manage.py migrate
 
 django-shell: migration
-	$(PYTHON) simplesite/manage.py shell
+	$(PYTHON) authsite/manage.py shell
 
 run: migration
 	echo "Running with TAG=${TAG}"
-	$(PYTHON) simplesite/manage.py runserver 0.0.0.0:8000
+	$(PYTHON) authsite/manage.py runserver 0.0.0.0:8000
 
 migration-check: install
-	$(PYTHON) simplesite/manage.py check
+	$(PYTHON) authsite/manage.py check
 
 # could run same command and pass table name as param
 migration-update-detail: install
-	$(PYTHON) simplesite/manage.py sqlmigrate
+	$(PYTHON) authsite/manage.py sqlmigrate
 	
 test: migration
 	$(if $(TEST_MODEL),,$(error TEST_MODEL is not defined. Please provide a value when running the command, e.g., make test TEST_MODEL=<value>))
-	$(PYTHON) simplesite/manage.py test tests.$(TEST_MODEL)
+	$(PYTHON) authsite/manage.py test tests.$(TEST_MODEL)
 
 test-all: migration
-	$(PYTHON) simplesite/manage.py test tests
+	$(PYTHON) authsite/manage.py test tests
 
 clean:
 	$(PYENV_DEACTIVATE) && \
@@ -86,7 +86,7 @@ clean:
 	echo "Cleaned up generated files"
 
 docker-image:
-	docker build --progress=plain -t simplesite:${VERSION} -f simplesite/Dockerfile .
+	docker build --progress=plain -t authsite:${VERSION} -f authsite/Dockerfile .
 
 check_folder_not_exist:
 	if [ -d "$(FOLDER_PATH)" ]; then \
@@ -99,8 +99,8 @@ check_folder_not_exist:
 
 create-app:
 	$(if $(APP_NAME),,$(error APP_NAME is not defined. Please provide a value when running the command, e.g., make create-app APP_NAME=<value>))
-	make check_folder_not_exist FOLDER_PATH=./simplesite/$(APP_NAME) || exit 1
-	$(PYTHON) simplesite/manage.py startapp $(APP_NAME)
-	mv ./$(APP_NAME) ./simplesite/$(APP_NAME)
+	make check_folder_not_exist FOLDER_PATH=./authsite/$(APP_NAME) || exit 1
+	$(PYTHON) authsite/manage.py startapp $(APP_NAME)
+	mv ./$(APP_NAME) ./authsite/$(APP_NAME)
 
 .PHONY: activate deactivate install run clean test-all test docker-image
