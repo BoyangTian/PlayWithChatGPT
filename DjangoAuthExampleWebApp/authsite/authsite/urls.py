@@ -42,3 +42,8 @@ urlpatterns += [
 # Django does not serve static files like CSS, JavaScript, and images by default, 
 # but it can be useful for the development web server to do so while you're creating your site. 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication
+urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls')),
+]

@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views import generic
 
@@ -55,12 +56,19 @@ class BookListView(generic.ListView):
     #     context['some_data'] = 'This is just some data'
     #     return context
 
-class BookDetailView(generic.DetailView):
+class BookDetailView(LoginRequiredMixin, generic.DetailView):
     model = Book
     # this is the object name pass to html file
     # context_object_name = 'book-detail'
     template_name = 'catalog/book_detail.html' 
 
     paginate_by = 2
+
+    # https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication
+    # You can also specify an alternative location to redirect the user to if they are 
+    # not authenticated (login_url), and a URL parameter name instead of "next" to insert 
+    # the current absolute path (redirect_field_name).
+    # login_url = '/login/'
+    # redirect_field_name = 'redirect_to'
 
 
