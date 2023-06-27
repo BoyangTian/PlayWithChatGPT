@@ -45,3 +45,5 @@ __pycache__/
 .vscode/
 .idea/
 .vim/
+
+db.sqlite3
