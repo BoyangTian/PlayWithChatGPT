@@ -19,11 +19,16 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from users import views as user_views
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 from . import views
 
+# TODO: not one login as admin other also as admin
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', user_views.register, name='register'),
     path('', include('users.urls'), name='register'),
     path('home/', views.home_view, name='home'),
 ]
+# + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

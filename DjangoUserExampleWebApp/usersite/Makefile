@@ -1,12 +1,13 @@
 # Define variables
 PYTHON = python3
 PROJECT_NAME = DjangoUserExampleWebApp
-include usersite.env
+include etc/usersite.env
 VERSION=${TAG}
 PYTHON_VERSION=3.9.6
 # Define the activate and deactivate commands for Pyenv
 PYENV_INSTALL = pyenv install -s $(PYTHON_VERSION)
 PYENV_ACTIVATE = pyenv local $(PROJECT_NAME)
+# PYENV_ACTIVATE = pyenv activate $(PROJECT_NAME)
 PYENV_DEACTIVATE = source deactivate $(PROJECT_NAME)
 PIP_REQUIREMENTS=requirements.txt
 
@@ -54,29 +55,32 @@ install: activate
 	echo "Installed dependencies"
 
 migration: install
-	$(PYTHON) usersite/manage.py makemigrations
-	$(PYTHON) usersite/manage.py migrate
+	$(PYTHON) manage.py makemigrations
+	$(PYTHON) manage.py migrate
 
 django-shell: migration
-	$(PYTHON) usersite/manage.py shell
+	$(PYTHON) manage.py shell
 
 run: migration
 	echo "Running with TAG=${TAG}"
-	$(PYTHON) usersite/manage.py runserver 0.0.0.0:8000
+	$(PYTHON) manage.py runserver 0.0.0.0:8000
+
+gunicorn-run: migration
+	DJANGO_SETTINGS_MODULE=usersite.settings.prod gunicorn usersite.wsgi:application --config etc/gunicorn.conf.py
 
 migration-check: install
-	$(PYTHON) usersite/manage.py check
+	$(PYTHON) manage.py check
 
 # could run same command and pass table name as param
 migration-update-detail: install
-	$(PYTHON) usersite/manage.py sqlmigrate
+	$(PYTHON) manage.py sqlmigrate
 	
 test: migration
 	$(if $(TEST_MODEL),,$(error TEST_MODEL is not defined. Please provide a value when running the command, e.g., make test TEST_MODEL=<value>))
-	$(PYTHON) usersite/manage.py test tests.$(TEST_MODEL)
+	$(PYTHON) manage.py test tests.$(TEST_MODEL)
 
 test-all: migration
-	$(PYTHON) usersite/manage.py test tests
+	$(PYTHON) manage.py test tests
 
 clean:
 	$(PYENV_DEACTIVATE) && \
@@ -85,8 +89,8 @@ clean:
 	rm -rf .python-version && \
 	echo "Cleaned up generated files"
 
-# docker-image:
-# 	docker build --progress=plain -t usersite:${VERSION} -f usersite/Dockerfile .
+docker-image:
+	docker build --progress=plain -t usersite:${VERSION} -f containers/Dockerfile .
 
 check_folder_not_exist:
 	if [ -d "$(FOLDER_PATH)" ]; then \
@@ -99,8 +103,7 @@ check_folder_not_exist:
 
 create-app:
 	$(if $(APP_NAME),,$(error APP_NAME is not defined. Please provide a value when running the command, e.g., make create-app APP_NAME=<value>))
-	make check_folder_not_exist FOLDER_PATH=./usersite/$(APP_NAME) || exit 1
-	$(PYTHON) usersite/manage.py startapp $(APP_NAME)
-	mv ./$(APP_NAME) ./usersite/$(APP_NAME)
+	make check_folder_not_exist FOLDER_PATH=./$(APP_NAME) || exit 1
+	$(PYTHON) manage.py startapp $(APP_NAME)
 
 .PHONY: activate deactivate install run clean test-all test docker-image
