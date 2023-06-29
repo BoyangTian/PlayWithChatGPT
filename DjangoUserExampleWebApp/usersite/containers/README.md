@@ -25,3 +25,7 @@ url:
 http://127.0.0.1:9000/handlers/
 
 but start two container seperately will not work and we need to create a docker network. In this case we could create a docker-compose file which help to setup network between them
+nginx can talk from:
+http://127.0.0.1:9000/handlers/
+gunicorn can talk from:
+http://127.0.0.1:8080/handlers/
