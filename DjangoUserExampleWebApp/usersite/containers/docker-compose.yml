@@ -1,0 +1,20 @@
+version: '1'
+
+services:
+  nginx-usersite:
+    container_name: nginx-usersite
+    image: nginx-usersite:0.0.1
+    restart: always
+    ports:
+      # You can connect to the PostgreSQL server using localhost:5432 or 127.0.0.1:5432 from your host machine or any other machine on the same network.
+      - 9000:9000
+    depends_on:
+      - usersite
+
+  
+  usersite:
+    container_name: usersite
+    image: usersite:0.0.1
+    restart: always
+    ports:
+      - 8080:9001

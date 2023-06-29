@@ -1,0 +1,9 @@
+[Unit]
+Description=Usersite Service
+
+[Service]
+User=test
+Group=test
+WorkingDirectory=/usersite
+EnvironmentFile=/prod-usersite.env
+ExecStart=gunicorn usersite.wsgi:application --config ../etc/gunicorn.conf.py
