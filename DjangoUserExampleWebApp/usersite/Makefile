@@ -27,6 +27,7 @@ help:
 	@echo "test-all                		- Test all."
 	@echo "create-app APP_NAME=<value>	- Create sub app under usersite folder."
 	@echo "clean                		- Clean python cache."
+	@echo "usersite                		- Docker compose for nginx + gunicorn + django."
 
 # Activate the Pyenv virtual environment
 activate:
@@ -90,7 +91,8 @@ clean:
 	echo "Cleaned up generated files"
 
 docker-image:
-	docker build --progress=plain -t usersite:${VERSION} -f containers/Dockerfile .
+	$(if $(TARGET),,$(error TARGET is not defined. Please provide a value when running the command, e.g., make docker-image TARGET=<value>))
+	docker build --progress=plain -t ${TARGET}:${VERSION} -f containers/${TARGET}/Dockerfile .
 
 check_folder_not_exist:
 	if [ -d "$(FOLDER_PATH)" ]; then \
@@ -106,4 +108,10 @@ create-app:
 	make check_folder_not_exist FOLDER_PATH=./$(APP_NAME) || exit 1
 	$(PYTHON) manage.py startapp $(APP_NAME)
 
-.PHONY: activate deactivate install run clean test-all test docker-image
+usersite:
+	docker-compose -f containers/docker-compose.yml up -d
+
+down:
+	docker-compose -f containers/docker-compose.yml down
+
+.PHONY: activate deactivate install run clean test-all test docker-image usersite

@@ -35,7 +35,7 @@ WORKDIR /app
 
 RUN ls
 
-COPY ../. /app/
+COPY ../../. /app/
 
 # TODO: ugly since we didn't use different .env for different environment, just overwrite, change later
 RUN rm /app/etc/usersite.env
