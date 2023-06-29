@@ -29,3 +29,6 @@ nginx can talk from:
 http://127.0.0.1:9000/handlers/
 gunicorn can talk from:
 http://127.0.0.1:8080/handlers/
+
+# Reference
+https://www.youtube.com/watch?v=Rj0CaUHuNqE
