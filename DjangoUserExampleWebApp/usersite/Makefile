@@ -97,11 +97,11 @@ collectstatic:
 
 # for django application: make docker-image TARGET=usersite
 # for nginx: make docker-image TARGET=nginx-usersite
-docker-image:
+docker-image: collectstatic
 	$(if $(TARGET),,$(error TARGET is not defined. Please provide a value when running the command, e.g., make docker-image TARGET=<value>))
 	docker build --progress=plain -t ${TARGET}:${VERSION} -f containers/${TARGET}/Dockerfile .
 
-docker-image-all:
+docker-image-all: collectstatic
 	docker build --progress=plain -t usersite:${VERSION} -f containers/usersite/Dockerfile .
 	docker build --progress=plain -t nginx-usersite:${VERSION} -f containers/nginx-usersite/Dockerfile .
 

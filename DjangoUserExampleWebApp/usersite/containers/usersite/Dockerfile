@@ -40,6 +40,7 @@ COPY ../../. /app/
 # TODO: ugly since we didn't use different .env for different environment, just overwrite, change later
 RUN rm /app/etc/usersite.env
 RUN mv /app/etc/prod-usersite.env /app/etc/usersite.env
+RUN rm -rf /app/static
 
 RUN echo $DB_HOST
 

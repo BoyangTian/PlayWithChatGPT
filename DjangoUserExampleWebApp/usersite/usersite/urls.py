@@ -31,5 +31,4 @@ urlpatterns = [
     path('', include('users.urls'), name='register'),
     path('home/', views.home_view, name='home'),
     path('handlers/', include('handlers.urls'), name='handlers'),
-]
-# + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

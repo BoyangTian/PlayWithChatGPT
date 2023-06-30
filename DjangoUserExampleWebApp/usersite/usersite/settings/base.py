@@ -128,10 +128,10 @@ STATIC_URL = '/static/'
 # files from various sources. One of the defaults is AppDirectoriesFinder which looks for a “static”
 # subdirectory in each of the INSTALLED_APPS, like the one in polls we just created.
 # The admin site uses the same directory structure for its static files.
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-]
+# STATICFILES_FINDERS = [
+#     'django.contrib.staticfiles.finders.FileSystemFinder',
+#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+# ]
 # STATICFILES_DIRS = [
 #     BASE_DIR / 'static',
 # ]
