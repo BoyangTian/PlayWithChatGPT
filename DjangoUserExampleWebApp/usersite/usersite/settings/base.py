@@ -121,7 +121,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 
 # https://docs.djangoproject.com/en/4.2/intro/tutorial06/
 # Django’s STATICFILES_FINDERS setting contains a list of finders that know how to discover static

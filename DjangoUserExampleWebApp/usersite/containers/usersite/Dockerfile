@@ -41,6 +41,7 @@ COPY ../../. /app/
 RUN rm /app/etc/usersite.env
 RUN mv /app/etc/prod-usersite.env /app/etc/usersite.env
 RUN rm -rf /app/static
+RUN rm -rf /app/logs
 
 RUN echo $DB_HOST
 

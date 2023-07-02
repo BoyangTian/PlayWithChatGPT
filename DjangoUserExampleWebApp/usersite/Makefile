@@ -92,16 +92,17 @@ clean:
 	rm -rf .python-version && \
 	echo "Cleaned up generated files"
 
+# get all latest static files
 collectstatic:
 	$(PYTHON) manage.py collectstatic
 
 # for django application: make docker-image TARGET=usersite
 # for nginx: make docker-image TARGET=nginx-usersite
-docker-image: collectstatic
+docker-image:
 	$(if $(TARGET),,$(error TARGET is not defined. Please provide a value when running the command, e.g., make docker-image TARGET=<value>))
 	docker build --progress=plain -t ${TARGET}:${VERSION} -f containers/${TARGET}/Dockerfile .
 
-docker-image-all: collectstatic
+docker-image-all:
 	docker build --progress=plain -t usersite:${VERSION} -f containers/usersite/Dockerfile .
 	docker build --progress=plain -t nginx-usersite:${VERSION} -f containers/nginx-usersite/Dockerfile .
 
