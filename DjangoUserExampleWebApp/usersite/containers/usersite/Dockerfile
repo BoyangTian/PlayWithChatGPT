@@ -29,27 +29,28 @@ RUN pyenv --help
 
 RUN pyenv virtualenvs
 
-RUN mkdir -p /app
+RUN mkdir -p /usersite
 
-WORKDIR /app
+WORKDIR /usersite
 
 RUN ls
 
-COPY ../../. /app/
+COPY ../../. /usersite/
 
 # TODO: ugly since we didn't use different .env for different environment, just overwrite, change later
-RUN rm /app/etc/usersite.env
-RUN mv /app/etc/prod-usersite.env /app/etc/usersite.env
-RUN rm -rf /app/static
-RUN rm -rf /app/logs
+RUN rm /usersite/etc/usersite.env
+RUN mv /usersite/etc/prod-usersite.env /usersite/etc/usersite.env
+# RUN rm -rf /usersite/static
+RUN rm -rf /usersite/logs
+RUN rm -f /usersite/usersite/settings/dev.py
 
 RUN echo $DB_HOST
 
 RUN pwd
 RUN ls
 
-RUN mkdir /app/logs
-RUN ls /app/logs
+RUN mkdir /usersite/logs
+RUN ls /usersite/logs
 
 RUN make install
 

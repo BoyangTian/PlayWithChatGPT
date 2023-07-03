@@ -11,7 +11,8 @@ COPY ../../etc/nginx.conf /etc/nginx/nginx.conf
 # COPY ../../etc/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy static files from the Django application
-COPY ../../static /usersite/www/public/static/
+# TODO: remove
+# COPY ../../static /shared/usersite/static/
 
 # Expose port 80 for web traffic
 # EXPOSE 80

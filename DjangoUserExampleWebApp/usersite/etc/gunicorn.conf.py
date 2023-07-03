@@ -1,7 +1,7 @@
 workers = 2
 errorlog = "./logs/mysite.gunicorn.error"
 accesslog = "./logs/mysite.gunicorn.access"
-loglevel = "debug"
+loglevel = "info"
 
 # Restart workers when code changes (development only!)
 reload = True

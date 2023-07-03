@@ -1,5 +1,16 @@
 version: '1'
 
+volumes:
+  shared_static_volume:
+    # Define the path on the host machine where static files will be stored
+    # Replace "/path/to/shared/static/folder" with the actual path on your host machine
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      # PWD is the running place, if run from Makefile, it should be Makefile location
+      device: ${PWD}/static
+
 services:
   nginx-usersite:
     container_name: nginx-usersite
@@ -9,6 +20,8 @@ services:
       - 80:9000
     depends_on:
       - usersite
+    volumes:
+      - shared_static_volume:/usersite/static/
 
   
   usersite:
@@ -21,3 +34,5 @@ services:
       - "8080"
     # ports:
     #   - 8080:9001
+    volumes:
+      - shared_static_volume:/usersite/static/

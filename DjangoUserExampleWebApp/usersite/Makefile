@@ -64,9 +64,8 @@ django-shell: migration
 
 run: migration
 	echo "Running with TAG=${TAG}"
-	$(PYTHON) manage.py runserver 0.0.0.0:8000
+	$(PYTHON) manage.py runserver 0.0.0.0:8000 --settings=usersite.settings.dev
 
-# directly run this "static" part will not work.
 # This should work with nginx together
 gunicorn-run: migration
 	DJANGO_SETTINGS_MODULE=usersite.settings.prod gunicorn usersite.wsgi:application --config etc/gunicorn.conf.py
@@ -92,7 +91,7 @@ clean:
 	rm -rf .python-version && \
 	echo "Cleaned up generated files"
 
-# get all latest static files
+# get all latest static files, need to set STATIC_ROOT
 collectstatic:
 	$(PYTHON) manage.py collectstatic
 
