@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # In order to let prod static file work, we need this: https://stackoverflow.com/questions/5836674/why-does-debug-false-setting-make-my-django-static-files-access-fail
+    'whitenoise.runserver_nostatic',
     "handlers.apps.HandlersConfig",
     'users.apps.UsersConfig',
     'crispy_forms',
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -128,13 +131,13 @@ STATIC_URL = 'static/'
 # files from various sources. One of the defaults is AppDirectoriesFinder which looks for a “static”
 # subdirectory in each of the INSTALLED_APPS, like the one in polls we just created.
 # The admin site uses the same directory structure for its static files.
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-]
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
+# STATICFILES_FINDERS = [
+#     'django.contrib.staticfiles.finders.FileSystemFinder',
+#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+# ]
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'static',
+# ]
 # STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type

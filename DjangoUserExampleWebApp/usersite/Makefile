@@ -64,8 +64,9 @@ django-shell: migration
 
 run: migration
 	echo "Running with TAG=${TAG}"
-	$(PYTHON) manage.py runserver 0.0.0.0:8000
+	$(PYTHON) manage.py runserver 0.0.0.0:8000 --settings=usersite.settings.dev
 
+# This should work with nginx together
 gunicorn-run: migration
 	DJANGO_SETTINGS_MODULE=usersite.settings.prod gunicorn usersite.wsgi:application --config etc/gunicorn.conf.py
 
@@ -90,9 +91,19 @@ clean:
 	rm -rf .python-version && \
 	echo "Cleaned up generated files"
 
+# get all latest static files, need to set STATIC_ROOT
+collectstatic:
+	$(PYTHON) manage.py collectstatic
+
+# for django application: make docker-image TARGET=usersite
+# for nginx: make docker-image TARGET=nginx-usersite
 docker-image:
 	$(if $(TARGET),,$(error TARGET is not defined. Please provide a value when running the command, e.g., make docker-image TARGET=<value>))
 	docker build --progress=plain -t ${TARGET}:${VERSION} -f containers/${TARGET}/Dockerfile .
+
+docker-image-all:
+	docker build --progress=plain -t usersite:${VERSION} -f containers/usersite/Dockerfile .
+	docker build --progress=plain -t nginx-usersite:${VERSION} -f containers/nginx-usersite/Dockerfile .
 
 check_folder_not_exist:
 	if [ -d "$(FOLDER_PATH)" ]; then \
