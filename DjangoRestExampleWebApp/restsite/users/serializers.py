@@ -4,12 +4,19 @@ from rest_framework import serializers
 from handlers.models import Task
 
 
-class UserSerializer(serializers.ModelSerializer):
-    tasks = serializers.PrimaryKeyRelatedField(many=True, queryset=Task.objects.all())
-    
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    tasks = serializers.HyperlinkedRelatedField(many=True, view_name='task-detail', read_only=True)
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'tasks']
+        fields = ['url', 'id', 'username', 'email', 'tasks']
+
+# class UserSerializer(serializers.ModelSerializer):
+#     tasks = serializers.PrimaryKeyRelatedField(many=True, queryset=Task.objects.all())
+    
+#     class Meta:
+#         model = User
+#         fields = ['id', 'username', 'email', 'tasks']
 
 # class UserSerializer(serializers.HyperlinkedModelSerializer):
 #     class Meta:

@@ -17,23 +17,27 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from . import views as root_views
+from handlers import views as handler_views
 from users import views as user_views
 from rest_framework import routers
 
-router = routers.DefaultRouter()
+# router = routers.DefaultRouter()
 # router.register(r'users', user_views.UserViewSet)
-router.register(r'groups', user_views.GroupViewSet)
+# router.register(r'groups', user_views.GroupViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
+    path('', root_views.api_root),
+    # path('tasks/',
+    #     handler_views.TaskList.as_view(),
+    #     name='task-list'),
     path('admin/', admin.site.urls),
-    path('', include(router.urls)),
+    # path('', include(router.urls)),
     # login and logout views for the browsable API.
     # this url can be whatever you like
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('', include('handlers.urls')),
-    # TODO: need to understand the relationship between this and router
-    path('users/', user_views.UserList.as_view()),
-    path('users/<int:pk>/', user_views.UserDetail.as_view()),
+    path('', include('users.urls')),
 ]

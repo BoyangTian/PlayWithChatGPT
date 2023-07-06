@@ -1,5 +1,7 @@
 from django.db import models
 from enum import Enum
+# from pygments.formatters.html import HtmlFormatter
+# from pygments import highlight
 
 class TaskStatus(Enum):
     Unknown = 'unknown'
@@ -14,12 +16,14 @@ class Task(models.Model):
     owner = models.ForeignKey('auth.User', related_name='tasks', on_delete=models.CASCADE)
     status = models.CharField(choices=[(status.value, status.name) for status in TaskStatus], default=TaskStatus.Unknown.value, max_length=100)
     finished_at = models.DateTimeField(null=True, blank=True)
+    # highlighted = models.TextField()
 
     def __str__(self):
         return f'{self.title}: id: {self.id}, owner: {self.owner}, status: {self.status}, created_at: {self.created_at}, finished_at: {self.finished_at}' 
 
     def save(self, *args, **kwargs):
         # we can customize the save operation
+        # self.highlighted = highlight(self.owner, self.status)
         super().save(*args, **kwargs) 
 
     class Meta:

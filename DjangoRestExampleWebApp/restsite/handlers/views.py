@@ -13,10 +13,21 @@ from rest_framework import status
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework import permissions
+from rest_framework.reverse import reverse
 
 from .models import Task
 from .serializers import TaskSerializer
 from .permissions import IsOwnerOrReadOnly
+from rest_framework import renderers
+
+class TaskHighlight(generics.GenericAPIView):
+    queryset = Task.objects.all()
+    renderer_classes = [renderers.StaticHTMLRenderer]
+
+    def get(self, request, *args, **kwargs):
+        task = self.get_object()
+        return Response(task.highlighted)
+
 
 # TaskList support 'GET', 'POST'.
 # Since 'POST' new task is done by this class,
