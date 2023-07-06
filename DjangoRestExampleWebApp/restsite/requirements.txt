@@ -1,0 +1,6 @@
+django==4.2.2
+gunicorn==20.1.0
+djangorestframework==3.14.0
+python-dotenv==1.0.0
+# https://stackoverflow.com/questions/5836674/why-does-debug-false-setting-make-my-django-static-files-access-fail
+whitenoise==6.5.0

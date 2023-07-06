@@ -1,0 +1,38 @@
+version: '1'
+
+# volumes:
+#   shared_static_volume:
+#     # Define the path on the host machine where static files will be stored
+#     # Replace "/path/to/shared/static/folder" with the actual path on your host machine
+#     driver: local
+#     driver_opts:
+#       type: none
+#       o: bind
+#       # PWD is the running place, if run from Makefile, it should be Makefile location
+#       device: ${PWD}/static
+
+services:
+  nginx-restsite:
+    container_name: nginx-restsite
+    image: nginx-restsite:0.0.1
+    restart: always
+    ports:
+      - 80:9000
+    depends_on:
+      - restsite
+    # volumes:
+    #   - shared_static_volume:/restsite/static/
+
+  
+  restsite:
+    container_name: restsite
+    image: restsite:0.0.1
+    restart: always
+    # user expose instead of ports to only allow
+    # containers under docker compose access it instead of outside
+    expose:
+      - "8080"
+    # ports:
+    #   - 8080:9001
+    # volumes:
+    #   - shared_static_volume:/restsite/static/

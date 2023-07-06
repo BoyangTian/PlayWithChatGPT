@@ -2,24 +2,32 @@ from .base import *
 
 DEBUG = False
 
-STATIC_URL = 'static/'
-# STATIC_ROOT = '/shared/usersite/static/'
-# STATIC_ROOT = '/usersite/static/'
+# INSTALLED_APPS += [
+#     # In order to let prod static file work, we need this: https://stackoverflow.com/questions/5836674/why-does-debug-false-setting-make-my-django-static-files-access-fail
+#     'whitenoise.runserver_nostatic',
+# ]
+
 # STATICFILES_FINDERS = [
 #     'django.contrib.staticfiles.finders.FileSystemFinder',
 #     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 # ]
+
+# STATIC_URL = 'static/'
+# STATIC_ROOT = '/shared/restsite/static/'
+# STATIC_ROOT = '/restsite/static/'
 
 
 # In order to let prod static file work, we need this: https://stackoverflow.com/questions/5836674/why-does-debug-false-setting-make-my-django-static-files-access-fail
 STATIC_ROOT = BASE_DIR / 'static'
 
 print("!!!!")
-print(STATIC_ROOT)
+# print(STATIC_ROOT)
 
 # STATICFILES_DIRS = [
 #     BASE_DIR / 'static',
 # ]
+# print("!!!!")
+# print(STATICFILES_DIRS)
 
 LOGGING = {
     'version': 1,
@@ -27,6 +35,7 @@ LOGGING = {
     'handlers': {
         'file': {
             'level': 'INFO',
+            # 'class': 'logging.StreamHandler',
             'class': 'logging.FileHandler',
             'filename': BASE_DIR / 'logs/django.log',  # Specify the file path here
         },
@@ -54,5 +63,5 @@ ALLOWED_HOSTS = [
     # TODO: debug purpose
     # '*'
     '127.0.0.1',
-    # 'usersite.test',
+    # 'restsite.test',
 ]
