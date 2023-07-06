@@ -12,18 +12,40 @@ from rest_framework import status
 
 from rest_framework import mixins
 from rest_framework import generics
+from rest_framework import permissions
 
 from .models import Task
 from .serializers import TaskSerializer
+from .permissions import IsOwnerOrReadOnly
 
+# TaskList support 'GET', 'POST'.
+# Since 'POST' new task is done by this class,
+# therefore 'perform_create' to add the owner should
+# be done by this
 class TaskList(generics.ListCreateAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
+
+    # REST framework includes a number of permission 
+    # classes that we can use to restrict who can access 
+    # a given view. In this case the one we're looking for 
+    # is IsAuthenticatedOrReadOnly, which will ensure that 
+    # authenticated requests get read-write access, 
+    # and unauthenticated requests get read-only access.
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    # this will be call when task create been called
+    # under '/tasks' endpoint
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
+
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly]
 
 # class TaskList(mixins.ListModelMixin,
 #                   mixins.CreateModelMixin,
@@ -104,7 +126,7 @@ class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
 # @api_view(['GET', 'POST'])
 # def task_list(request, format=None):
 #     """
-#     List all code snippets, or create a new snippet.
+#     List all tasks, or create a new snippet.
 #     """
 #     if request.method == 'GET':
 #         tasks = Task.objects.all()
@@ -146,7 +168,7 @@ class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
 # @csrf_exempt
 # def task_list(request):
 #     """
-#     List all code snippets, or create a new snippet.
+#     List all tasks, or create a new snippet.
 #     """
 #     if request.method == 'GET':
 #         tasks = Task.objects.all()

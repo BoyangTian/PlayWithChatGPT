@@ -3,9 +3,12 @@ from .models import Task, TaskStatus
 
 
 class TaskSerializer(serializers.ModelSerializer):
+    # If we don't add this line, 'owner' filed will be the user.id
+    owner = serializers.ReadOnlyField(source='owner.username')
+
     class Meta:
         model = Task
-        fields = ['id', 'title', 'created_at', 'status', 'finished_at']
+        fields = ['id', 'title', 'owner', 'created_at', 'status', 'finished_at']
 
 # class TaskSerializer(serializers.Serializer):
 #     id = serializers.IntegerField(read_only=True)

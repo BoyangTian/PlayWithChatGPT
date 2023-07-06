@@ -21,7 +21,7 @@ from users import views as user_views
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register(r'users', user_views.UserViewSet)
+# router.register(r'users', user_views.UserViewSet)
 router.register(r'groups', user_views.GroupViewSet)
 
 # Wire up our API using automatic URL routing.
@@ -29,6 +29,11 @@ router.register(r'groups', user_views.GroupViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
+    # login and logout views for the browsable API.
+    # this url can be whatever you like
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('', include('handlers.urls')),
+    # TODO: need to understand the relationship between this and router
+    path('users/', user_views.UserList.as_view()),
+    path('users/<int:pk>/', user_views.UserDetail.as_view()),
 ]
