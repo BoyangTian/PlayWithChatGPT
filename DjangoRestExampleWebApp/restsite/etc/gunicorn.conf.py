@@ -1,6 +1,6 @@
 workers = 2
-errorlog = "./logs/mysite.gunicorn.error"
-accesslog = "./logs/mysite.gunicorn.access"
+errorlog = "./logs/restsite.gunicorn.error"
+accesslog = "./logs/restsite.gunicorn.access"
 loglevel = "info"
 
 # Restart workers when code changes (development only!)

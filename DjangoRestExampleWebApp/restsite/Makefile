@@ -64,7 +64,7 @@ django-shell: migration
 
 run: migration
 	echo "Running with TAG=${TAG}"
-	$(PYTHON) manage.py runserver 0.0.0.0:8000 --settings=restsite.settings.dev
+	$(PYTHON) manage.py runserver 0.0.0.0:8000
 
 # This should work with nginx together
 gunicorn-run: migration
