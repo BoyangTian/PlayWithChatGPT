@@ -6,17 +6,27 @@ from rest_framework import generics
 
 from .serializers import UserSerializer, GroupSerializer
 
-class UserList(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+# https://www.django-rest-framework.org/tutorial/6-viewsets-and-routers/
+# class UserViewSet(viewsets.ReadOnlyModelViewSet):
+#     """
+#     This viewset automatically provides `list` and `retrieve` actions.
+#     """
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+#     permission_classes = [permissions.IsAuthenticated]
+
+# class UserList(generics.ListAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
 
 
-class UserDetail(generics.RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+# class UserDetail(generics.RetrieveAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
 
 # this is not been used now, it is only been used by
 # router.register(r'users', user_views.UserViewSet)
+# TODO: also set password when post???
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.

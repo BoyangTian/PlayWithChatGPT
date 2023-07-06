@@ -1,14 +1,28 @@
 from rest_framework import serializers
 from .models import Task, TaskStatus
 
-
-class TaskSerializer(serializers.ModelSerializer):
-    # If we don't add this line, 'owner' filed will be the user.id
+# https://www.django-rest-framework.org/tutorial/5-relationships-and-hyperlinked-apis/
+# The HyperlinkedModelSerializer has the following differences from ModelSerializer:
+# It does not include the id field by default.
+# It includes a url field, using HyperlinkedIdentityField.
+# Relationships use HyperlinkedRelatedField, instead of PrimaryKeyRelatedField.
+class TaskSerializer(serializers.HyperlinkedModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
+    # highlight = serializers.HyperlinkedIdentityField(view_name='task-highlight', format='html')
 
     class Meta:
         model = Task
-        fields = ['id', 'title', 'owner', 'created_at', 'status', 'finished_at']
+        fields = ['id', 'title', 'owner', 
+                  'created_at', 'status', 
+                  'finished_at']
+
+# class TaskSerializer(serializers.ModelSerializer):
+#     # If we don't add this line, 'owner' filed will be the user.id
+#     owner = serializers.ReadOnlyField(source='owner.username')
+
+#     class Meta:
+#         model = Task
+#         fields = ['id', 'title', 'owner', 'created_at', 'status', 'finished_at']
 
 # class TaskSerializer(serializers.Serializer):
 #     id = serializers.IntegerField(read_only=True)
