@@ -1,7 +1,7 @@
 # Define variables
 PYTHON = python3
 PROJECT_NAME = DjangoLibraryExampleWebApp
-include libsite.env
+include locallibrary.env
 VERSION=${TAG}
 PYTHON_VERSION=3.9.6
 # Define the activate and deactivate commands for Pyenv
@@ -24,7 +24,7 @@ help:
 	@echo "migration-update-detail  	- Get detail of update DB schema before migrate."
 	@echo "test TEST_MODEL=<model>  	- Test specific model."
 	@echo "test-all                		- Test all."
-	@echo "create-app APP_NAME=<value>	- Create sub app under libsite folder."
+	@echo "create-app APP_NAME=<value>	- Create sub app under locallibrary folder."
 	@echo "clean                		- Clean python cache."
 
 # Activate the Pyenv virtual environment
@@ -54,29 +54,29 @@ install: activate
 	echo "Installed dependencies"
 
 migration: install
-	$(PYTHON) libsite/manage.py makemigrations
-	$(PYTHON) libsite/manage.py migrate
+	$(PYTHON) locallibrary/manage.py makemigrations
+	$(PYTHON) locallibrary/manage.py migrate
 
 django-shell: migration
-	$(PYTHON) libsite/manage.py shell
+	$(PYTHON) locallibrary/manage.py shell
 
 run: migration
 	echo "Running with TAG=${TAG}"
-	$(PYTHON) libsite/manage.py runserver 0.0.0.0:8000
+	$(PYTHON) locallibrary/manage.py runserver 0.0.0.0:8000
 
 migration-check: install
-	$(PYTHON) libsite/manage.py check
+	$(PYTHON) locallibrary/manage.py check
 
 # could run same command and pass table name as param
 migration-update-detail: install
-	$(PYTHON) libsite/manage.py sqlmigrate
+	$(PYTHON) locallibrary/manage.py sqlmigrate
 	
 test: migration
 	$(if $(TEST_MODEL),,$(error TEST_MODEL is not defined. Please provide a value when running the command, e.g., make test TEST_MODEL=<value>))
-	$(PYTHON) libsite/manage.py test tests.$(TEST_MODEL)
+	$(PYTHON) locallibrary/manage.py test tests.$(TEST_MODEL)
 
 test-all: migration
-	$(PYTHON) libsite/manage.py test tests
+	$(PYTHON) locallibrary/manage.py test tests
 
 clean:
 	$(PYENV_DEACTIVATE) && \
@@ -86,7 +86,7 @@ clean:
 	echo "Cleaned up generated files"
 
 docker-image:
-	docker build --progress=plain -t libsite:${VERSION} -f libsite/Dockerfile .
+	docker build --progress=plain -t locallibrary:${VERSION} -f locallibrary/Dockerfile .
 
 check_folder_not_exist:
 	if [ -d "$(FOLDER_PATH)" ]; then \
@@ -99,8 +99,8 @@ check_folder_not_exist:
 
 create-app:
 	$(if $(APP_NAME),,$(error APP_NAME is not defined. Please provide a value when running the command, e.g., make create-app APP_NAME=<value>))
-	make check_folder_not_exist FOLDER_PATH=./libsite/$(APP_NAME) || exit 1
-	$(PYTHON) libsite/manage.py startapp $(APP_NAME)
-	mv ./$(APP_NAME) ./libsite/$(APP_NAME)
+	make check_folder_not_exist FOLDER_PATH=./locallibrary/$(APP_NAME) || exit 1
+	$(PYTHON) locallibrary/manage.py startapp $(APP_NAME)
+	mv ./$(APP_NAME) ./locallibrary/$(APP_NAME)
 
 .PHONY: activate deactivate install run clean test-all test docker-image
