@@ -128,3 +128,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
+
+# https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication
+# Note: The password reset system requires that your website supports email,
+# which is beyond the scope of this article, so this part won't work yet.
+# To allow testing, put the following line at the end of your settings.py file.
+# This logs any emails sent to the console (so you can copy the password reset link from the console).
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
