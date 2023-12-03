@@ -11,4 +11,5 @@ urlpatterns = [
     # you can pass a dictionary containing additional options to the view (using the third un-named argument to the path() function).
     # This approach can be useful if you want to use the same view for multiple resources, and pass data to configure its behavior in each case.
     # path('myurl/<fish>', views.my_view, {'my_template_name': 'some_path'}, name='aurl'),
+    path('mybooks/', views.LoanedBooksByUserListView.as_view(), name='my-borrowed'),
 ]
