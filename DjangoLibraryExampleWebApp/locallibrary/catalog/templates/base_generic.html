@@ -25,6 +25,7 @@
               <li><a href="">All authors</a></li>
               {% if user.is_authenticated %}
                 <li>User: {{ user.get_username }}</li>
+                <li><a href="{% url 'my-borrowed' %}">My Borrowed</a></li>
                 <!--
                   https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication
                   Note also how we have appended ?next={{ request.path }} to the end of the URLs.
